@@ -1,0 +1,4 @@
+---
+- name: Create autorized key for a remote user
+  community.crypto.openssh_keypair:
+    path: '/tmp/ansible_key'

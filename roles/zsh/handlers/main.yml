@@ -1,0 +1,4 @@
+---
+- name: Reload zsh config
+  ansible.builtin.command:
+    cmd: . ~/.zshrc

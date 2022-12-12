@@ -1,0 +1,29 @@
+---
+
+# This playbook is meant to set up my personal linux machine.
+# This includes user setup and security, development tools and enviroment
+
+- name: Create a key locally
+  hosts: 127.0.0.1
+  connection: local
+  roles:
+     - role: sshkey
+
+- name: Create user and set up a security key
+  hosts: all
+  remote_user: root
+  become: true
+  vars_files:
+     - vars/default.yml
+  roles:
+     - role: user
+
+- name: Set up a szsh enviorment
+  hosts: all
+  remote_user: root
+  become: true
+  become_user: "{{ created_username }}"
+  vars_files:
+     - vars/default.yml
+  roles:
+     - role: zsh
