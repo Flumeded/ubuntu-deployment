@@ -10,7 +10,7 @@
      - role: sshkey
 
 - name: Create user and set up a security key
-  hosts: all
+  hosts: 51.15.133.50
   remote_user: root
   become: true
   vars_files:
@@ -19,7 +19,7 @@
      - role: user
 
 - name: Set up a szsh enviorment
-  hosts: all
+  hosts: 51.15.133.50
   remote_user: root
   become: true
   become_user: "{{ created_username }}"
