@@ -1,0 +1,23 @@
+---
+- name: Install dependency for adding custom PPAs
+  ansible.builtin.apt:
+   name: software-properties-common
+
+- name: Add Python's PPA
+  ansible.builtin.apt_repository:
+   repo: ppa:deadsnakes/ppa
+
+- name: Install dependency for adding custom PPAs
+  ansible.builtin.apt:
+   name: python3.10
+
+- name: Install pip
+  ansible.builtin.apt:
+   name: python3-pip
+
+- name: Add path to zsh
+  ansible.builtin.lineinfile:
+   state: present
+   insertafter: true
+   path: "/home/{{ created_username }}/.zshrc"
+   line: path+='/home/flume/.local/bin'

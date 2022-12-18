@@ -17,8 +17,9 @@
      - vars/default.yml
   roles:
      - role: user
+     - role: python
 
-- name: Set up a szsh enviorment
+- name: Set up a szsh enviorment and isntall dependencies
   hosts: 51.15.133.50
   remote_user: root
   become: true
