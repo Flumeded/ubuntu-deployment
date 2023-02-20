@@ -7,48 +7,48 @@
 
 - name: Check if .zshrc exists
   ansible.builtin.stat:
-    path: ~/.zshrc
+    path: /home/{{ created_username }}/.zshrc
   register: stat_rc_result
 
 - name: Check if .oh-my-zsh exists
   ansible.builtin.stat:
-    path: ~/.oh-my-zsh
+    path: /home/{{ created_username }}/.oh-my-zsh
   register: stat_oh_my_zsh_result
 
 - name: Check if zsh-autosuggestions exists
   ansible.builtin.stat:
-    path: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    path: /home/{{ created_username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
   register: stat_zsh_autosuggestions_result
 
 - name: Check if zsh-syntax-highlignting exists
   ansible.builtin.stat:
-    path: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    path: /home/{{ created_username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
   register: stat_zsh_syntax_highlighting_result
 
 - name: Cloning  oh-my-zsh
   ansible.builtin.git:
     repo: https://github.com/robbyrussell/oh-my-zsh
-    dest: ~/.oh-my-zsh
+    dest: /home/{{ created_username }}/.oh-my-zsh
     version: "HEAD" # noqa: latest
   when: not stat_oh_my_zsh_result.stat.exists
 
 - name: Creating new ~/.zshrc
   ansible.builtin.copy:
-    src: ~/.oh-my-zsh/templates/zshrc.zsh-template
-    dest: ~/.zshrc
+    src: /home/{{ created_username }}/.oh-my-zsh/templates/zshrc.zsh-template
+    dest: /home/{{ created_username }}/.zshrc
     mode: 0644
   when: not stat_rc_result.stat.exists
 
 - name: Install zsh-autosuggestions plugin
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
-    dest: ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    dest: /home/{{ created_username }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
     version: "HEAD" # noqa: latest
   when: not stat_zsh_autosuggestions_result.stat.exists
 
 - name: Add zsh-autosuggestions plugin to config
   ansible.builtin.lineinfile:
-    path: ~/.zshrc
+    path: /home/{{ created_username }}/.zshrc
     backrefs: true
     regexp: '(?s)^(plugins=\()(.*git\))$'
     line: '\1zsh-autosuggestions \2'
@@ -57,13 +57,13 @@
 - name: Install zsh-syntax-highlighting plugin
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    dest: /home/{{ created_username }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
     version: "HEAD" # noqa: latest
   when: not stat_zsh_syntax_highlighting_result.stat.exists
 
 - name: Add zsh-syntax-highlighting plugin to config
   ansible.builtin.lineinfile:
-    path: ~/.zshrc
+    path: /home/{{ created_username }}/.zshrc
     backrefs: true
     regexp: '(?s)^(plugins=\()(.*git\))$'
     line: '\1zsh-syntax-highlighting \2'
